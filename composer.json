@@ -1,0 +1,16 @@
+{
+    "name": "beastbytes/yii2-anti-spam",
+    "description": "AntiSpam for Yii2",
+    "type": "yii2-extension",
+    "keywords": ["AntiSpam", "HoneyPot", "Hash", "Spam", "yii2"],
+    "license": "BSD-3-Clause",
+    "authors": [{
+        "name": "Chris Yates",
+        "email": "chris.l.yates@gmail.com"
+    }],
+    "autoload": {
+        "psr-4": {
+            "BeastBytes\\AntiSpam\\": "src"
+        }
+    }
+}
