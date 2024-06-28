@@ -52,11 +52,10 @@ class HoneyPotInputBehavior extends AntiSpamInputBehavior
     private function registerClientScript()
     {
         $inputId = Html::getInputId($this->owner->model, $this->antiSpamAttribute);
-        $class = [
-            'form-group',
+        $class = array_merge($this->owner->field->options['class'] ?? [], [
             "field-$inputId",
             $this->owner->field->form->requiredCssClass
-        ];
+        ]);
         $class = join(' ', $class);
 
         $view = $this->owner->getView();
