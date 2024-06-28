@@ -26,11 +26,14 @@ class HoneyPotInputBehavior extends AntiSpamInputBehavior
         $pos = strrpos($this->owner->options['id'], '-');
         $honeyPotId = substr($this->owner->options['id'], 0, $pos + 1) . $this->antiSpamAttribute;
 
-        echo Html::beginTag('div', ['id' => $this->owner->id]);
-        echo Html::activeTextInput($this->owner->model, $this->owner->attribute);
         echo Html::activeTextInput($this->owner->model, $this->antiSpamAttribute, array_merge(
             $this->owner->options, ['id' => $honeyPotId]
         ));
+        echo Html::beginTag('div', ['id' => $this->owner->id]);
+        echo Html::activeTextInput($this->owner->model, $this->owner->attribute, [
+            'tabindex' => -1,
+            'autocomplete' => 'nope',
+        ]);
         echo Html::endTag('div');
 
         if ($this->owner->field->form->enableClientScript) {
