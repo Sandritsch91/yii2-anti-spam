@@ -12,6 +12,7 @@ namespace BeastBytes\AntiSpam;
 
 use yii\base\Behavior;
 use yii\base\Model;
+use yii\validators\RequiredValidator;
 
 /**
  * AntiSpamBehavior provides methods that simplify using and validating the AntiSpamInput widget
@@ -146,6 +147,11 @@ class AntiSpamBehavior extends Behavior
                     $rule[0] = $ruleAttributes;
 
                     $newRule =  array_slice($rule, 1, null, true);
+                    if ($newRule[1] === 'required' || $newRule[1] === RequiredValidator::class) {
+                        // remove the 'required' rule for the real attribute or it will always fail
+                        continue;
+                    }
+
                     $newRule += ['enableClientValidation' => false];
                     array_unshift($newRule, $attribute);
                     array_unshift($rules, $newRule);
@@ -200,7 +206,7 @@ class AntiSpamBehavior extends Behavior
     public function validateHoneyPot(string $attribute)
     {
         if (strlen($this->owner->$attribute) > 0) {
-            \Yii::debug('Honey Pot spam');
+            $this->hasSpam = true;
         }
     }
 
