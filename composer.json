@@ -8,6 +8,12 @@
         "name": "Chris Yates",
         "email": "chris.l.yates@gmail.com"
     }],
+    "require": {
+        "php": ">=7.3.0"
+    },
+    "require-dev": {
+        "yiisoft/yii2": "~2.0.0"
+    },
     "autoload": {
         "psr-4": {
             "BeastBytes\\AntiSpam\\": "src"
