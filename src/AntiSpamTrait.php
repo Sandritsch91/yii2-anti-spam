@@ -10,18 +10,22 @@
 
 namespace BeastBytes\AntiSpam;
 
+use yii\base\InvalidCallException;
+use yii\base\UnknownPropertyException;
+
 /**
  * AntiSpamTrait provides getting and setting of AntiSpam attributes
  * @see AntiSpamBehavior
  * @see HashInput
  * @see HoneyPotInput
  */
-trait AntiSpamTrait {
+trait AntiSpamTrait
+{
     /**
      * Returns the value of a HashInput attribute, HoneyPotInput attribute, or an object property
      * @param string $name the name
      * @return mixed the value of a HashInput attribute, HoneyPotInput attribute, or an object property
-     * @throws \yii\base\UnknownPropertyException if the property is not defined
+     * @throws UnknownPropertyException if the property is not defined
      * @see __set()
      */
     public function __get($name)
@@ -44,8 +48,8 @@ trait AntiSpamTrait {
     /**
      * Sets the value of a HashInput attribute, HoneyPotInput attribute, or an object property
      * @param string $name the name
-     * @throws \yii\base\UnknownPropertyException if the property is not defined
-     * @throws \yii\base\InvalidCallException if the property is write-only
+     * @throws UnknownPropertyException if the property is not defined
+     * @throws InvalidCallException if the property is write-only
      * @see __get()
      */
     public function __set($name, $value)

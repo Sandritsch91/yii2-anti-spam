@@ -1,13 +1,13 @@
 <?php
 
-
 namespace BeastBytes\AntiSpam;
 
+use yii\widgets\InputWidget;
 
-class AntiSpamInput extends \yii\widgets\InputWidget
+class AntiSpamInput extends InputWidget
 {
     /**
-     * @var yii\base\Behavior The attached behavior
+     * @var HashInputBehavior|HoneyPotInputBehavior The attached behavior
      */
     private $_behavior;
 
@@ -18,6 +18,7 @@ class AntiSpamInput extends \yii\widgets\InputWidget
     {
         parent::init();
 
+        /** @var AntiSpamBehavior $behavior */
         foreach ($this->model->getBehaviors() as $behavior) {
             if (get_class($behavior) === 'BeastBytes\AntiSpam\AntiSpamBehavior') {
                 break;

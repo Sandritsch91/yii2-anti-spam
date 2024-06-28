@@ -17,28 +17,28 @@ use yii\helpers\Html;
  */
 class HashInputBehavior extends AntiSpamInputBehavior
 {
-	/**
-	 * @inheritdoc
-	 */
-	public function generateInput()
-	{
-		echo Html::activeTextInput($this->owner->model, $this->owner->attribute, array_merge(
+    /**
+     * @inheritdoc
+     */
+    public function generateInput(): void
+    {
+        echo Html::activeTextInput($this->owner->model, $this->owner->attribute, array_merge(
             $this->owner->field->inputOptions, $this->owner->options
         ));
-		echo Html::activeHiddenInput($this->owner->model, $this->antiSpamAttribute);
-		$this->registerClientScript();
-	}
+        echo Html::activeHiddenInput($this->owner->model, $this->antiSpamAttribute);
+        $this->registerClientScript();
+    }
 
-	/**
-	 * Registers client script
-	 */
-	private function registerClientScript()
-	{
-		HashAsset::register($this->owner->getView());
+    /**
+     * Registers client script
+     */
+    private function registerClientScript(): void
+    {
+        HashAsset::register($this->owner->getView());
 
-		$attributeId = Html::getInputId($this->owner->model, $this->owner->attribute);
-		$hashAttributeId = Html::getInputId($this->owner->model, $this->antiSpamAttribute);
+        $attributeId = Html::getInputId($this->owner->model, $this->owner->attribute);
+        $hashAttributeId = Html::getInputId($this->owner->model, $this->antiSpamAttribute);
 
-		$this->owner->getView()->registerJs("document.getElementById('$attributeId').onblur=function(){document.getElementById('$hashAttributeId').value=hex_md5(document.getElementById('$attributeId').value);};");
-	}
+        $this->owner->getView()->registerJs("document.getElementById('$attributeId').onblur=function(){document.getElementById('$hashAttributeId').value=hex_md5(document.getElementById('$attributeId').value);};");
+    }
 }

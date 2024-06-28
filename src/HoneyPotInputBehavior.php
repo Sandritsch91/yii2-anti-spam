@@ -11,6 +11,7 @@
 namespace BeastBytes\AntiSpam;
 
 use yii\helpers\Html;
+use yii\validators\Validator;
 use yii\web\JsExpression;
 use yii\web\View;
 
@@ -21,8 +22,8 @@ class HoneyPotInputBehavior extends AntiSpamInputBehavior
     /**
 	 * @inheritdoc
 	 */
-	public function generateInput()
-	{
+	public function generateInput(): void
+    {
         $pos = strrpos($this->owner->options['id'], '-');
         $honeyPotId = substr($this->owner->options['id'], 0, $pos + 1) . $this->antiSpamAttribute;
 
@@ -49,7 +50,7 @@ class HoneyPotInputBehavior extends AntiSpamInputBehavior
     /**
      * Registers the CSS to hide the real input JS to adjust the form group
      */
-    private function registerClientScript()
+    private function registerClientScript(): void
     {
         $inputId = Html::getInputId($this->owner->model, $this->antiSpamAttribute);
         $class = array_merge($this->owner->field->options['class'] ?? [], [
@@ -68,7 +69,7 @@ class HoneyPotInputBehavior extends AntiSpamInputBehavior
      * Returns the JS options for the field.
      * @return array the JS options.
      */
-    protected function getClientOptions()
+    protected function getClientOptions(): array
     {
         $attribute = Html::getAttributeName($this->antiSpamAttribute);
         if (!in_array($attribute, $this->owner->model->activeAttributes(), true)) {
@@ -81,7 +82,7 @@ class HoneyPotInputBehavior extends AntiSpamInputBehavior
         if ($clientValidation) {
             $validators = [];
             foreach ($this->owner->model->getActiveValidators($attribute) as $validator) {
-                /* @var $validator \yii\validators\Validator */
+                /* @var $validator Validator */
                 $js = $validator->clientValidateAttribute($this->owner->model, $attribute, $this->owner->field->form->getView());
                 if ($validator->enableClientValidation && $js != '') {
                     if ($validator->whenClient !== null) {
@@ -102,14 +103,14 @@ class HoneyPotInputBehavior extends AntiSpamInputBehavior
         $options['id'] = $inputID;
         $options['name'] = $this->antiSpamAttribute;
 
-        $options['container'] = isset($this->owner->field->selectors['container']) ? $this->owner->field->selectors['container'] : ".field-$inputID";
-        $options['input'] = isset($this->owner->field->selectors['input']) ? $this->owner->field->selectors['input'] : "#$inputID";
+        $options['container'] = $this->owner->field->selectors['container'] ?? ".field-$inputID";
+        $options['input'] = $this->owner->field->selectors['input'] ?? "#$inputID";
         if (isset($this->owner->field->selectors['error'])) {
             $options['error'] = $this->owner->field->selectors['error'];
         } elseif (isset($this->owner->field->errorOptions['class'])) {
             $options['error'] = '.' . implode('.', preg_split('/\s+/', $this->owner->field->errorOptions['class'], -1, PREG_SPLIT_NO_EMPTY));
         } else {
-            $options['error'] = isset($this->owner->field->errorOptions['tag']) ? $this->owner->field->errorOptions['tag'] : 'span';
+            $options['error'] = $this->owner->field->errorOptions['tag'] ?? 'span';
         }
 
         $options['encodeError'] = !isset($this->owner->field->errorOptions['encode']) || $this->owner->field->errorOptions['encode'];
@@ -144,7 +145,7 @@ class HoneyPotInputBehavior extends AntiSpamInputBehavior
      * Checks if client validation enabled for the field.
      * @return bool
      */
-    protected function isClientValidationEnabled()
+    protected function isClientValidationEnabled(): bool
     {
         return $this->owner->field->enableClientValidation ||
             $this->owner->field->enableClientValidation === null && $this->owner->field->form->enableClientValidation;
@@ -154,7 +155,7 @@ class HoneyPotInputBehavior extends AntiSpamInputBehavior
      * Checks if ajax validation enabled for the field.
      * @return bool
      */
-    protected function isAjaxValidationEnabled()
+    protected function isAjaxValidationEnabled(): bool
     {
         return $this->owner->field->enableAjaxValidation ||
             $this->owner->field->enableAjaxValidation === null && $this->owner->field->form->enableAjaxValidation;

@@ -10,12 +10,14 @@
 
 namespace BeastBytes\AntiSpam;
 
+use yii\web\AssetBundle;
+
 /**
  * Asset bundle for the \BeastBytes\AntiSpam\Verify JavaScript
  */
-class HashAsset extends \yii\web\AssetBundle
+class HashAsset extends AssetBundle
 {
-	public $basePath = '@webroot';
+    public $basePath = '@webroot';
 
     /**
      * @inheritdoc
@@ -24,5 +26,5 @@ class HashAsset extends \yii\web\AssetBundle
     {
         $this->js = ['md5-min.js'];
         $this->sourcePath = __DIR__ . '/assets';
-	}
+    }
 }

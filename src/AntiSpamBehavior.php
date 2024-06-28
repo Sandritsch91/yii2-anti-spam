@@ -60,20 +60,20 @@ class AntiSpamBehavior extends Behavior
     }
 
 
-	/**
-	 * @inheritdoc
-	 */
-	public function events(): array
-	{
-		return [
-            Model::EVENT_AFTER_VALIDATE => function() {
-		        // Set the real attributes with their HoneyPot attribute values
+    /**
+     * @inheritdoc
+     */
+    public function events(): array
+    {
+        return [
+            Model::EVENT_AFTER_VALIDATE => function () {
+                // Set the real attributes with their HoneyPot attribute values
                 foreach ($this->honeyPotAttributes as $attribute => $honeyPotAttribute) {
                     $this->owner->$attribute = $this->owner->$honeyPotAttribute;
                 }
             }
         ];
-	}
+    }
 
     /**
      * Returns attribute labels including those for HoneyPot inputs
@@ -146,7 +146,7 @@ class AntiSpamBehavior extends Behavior
                     $ruleAttributes[$i] = $honeyPotAttribute;
                     $rule[0] = $ruleAttributes;
 
-                    $newRule =  array_slice($rule, 1, null, true);
+                    $newRule = array_slice($rule, 1, null, true);
                     if ($newRule[1] === 'required' || $newRule[1] === RequiredValidator::class) {
                         // remove the 'required' rule for the real attribute or it will always fail
                         continue;
@@ -160,9 +160,9 @@ class AntiSpamBehavior extends Behavior
         }
 
         // add new validation rules for honeyPot and hash attributes
-        array_push($rules, [array_keys($this->hashAttributes), 'ValidateHash']);
-        array_push($rules, [array_values($this->hashAttributes), 'safe']);
-        array_push($rules, [array_keys($this->honeyPotAttributes), 'ValidateHoneyPot']);
+        $rules[] = [array_keys($this->hashAttributes), 'ValidateHash'];
+        $rules[] = [array_values($this->hashAttributes), 'safe'];
+        $rules[] = [array_keys($this->honeyPotAttributes), 'ValidateHoneyPot'];
 
         return $rules;
     }

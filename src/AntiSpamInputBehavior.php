@@ -10,10 +10,12 @@
 
 namespace BeastBytes\AntiSpam;
 
+use yii\base\Behavior;
+
 /**
  * Base class for AntiSpam input behaviors
  */
-abstract class AntiSpamInputBehavior extends \yii\base\Behavior
+abstract class AntiSpamInputBehavior extends Behavior
 {
     /**
      * @var string The anti-spam attribute name
@@ -22,7 +24,7 @@ abstract class AntiSpamInputBehavior extends \yii\base\Behavior
 
     /**
      * Generate the anti-spam input field
-     * @return null
+     * @return void
      */
-    abstract public function generateInput();
+    abstract public function generateInput(): void;
 }
